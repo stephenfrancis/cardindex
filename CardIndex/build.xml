@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CardIndex" default="build" basedir=".">
+	<description>CardIndex build file</description>
+	<property environment="env"/>
+	<!-- Load environment variables -->
+	<fail unless="env.BKP" message="Environment variable BKP (full path to backup dir) required"/>
+	<fail unless="env.JAVA_HOME" message="Environment variable JAVA_HOME required"/>
+	<fail unless="env.CATALINA_HOME" message="Environment variable CATALINA_HOME required"/>
+	<fail unless="env.MYSQL_HOME" message="Environment variable MYSQL_HOME required"/>
+	<fail unless="env.MYSQL_HOSTNAME" message="Environment variable MYSQL_HOSTNAME required"/>
+	<fail unless="env.MYSQL_USER_ID" message="Environment variable MYSQL_USER_ID required"/>
+	<fail unless="env.MYSQL_PASSWORD" message="Environment variable MYSQL_PASSWORD required"/>
+	<property name="src" location=""/>
+	<pathconvert targetos="unix" property="src_path">
+		<map from="C:" to=""/>
+		<path path="${src}"/>
+	</pathconvert>
+	<basename property="webapp" file="${src}"/>
+	<property name="db_name" value="${webapp}"/>
+	<tstamp>
+		<format property="date_time_stamp" pattern="yyyy-MM-dd_HH-mm-ss"/>
+	</tstamp>
+	<condition property="is.linux">
+		<os name="Linux"/>
+	</condition>
+
+	<property file="${src}/default.properties"/>
+	<property name="build" location="${config_base_directory}"/>
+	<path id="project.class.path">
+		<pathelement location="${build}/WEB-INF/classes"/>
+	</path>
+	<property name="classpath" refid="project.class.path"/>
+
+	<target name="compile" description="compile the source">
+		<javac srcdir="${src}/src" destdir="${build}/WEB-INF/classes" classpathref="project.class.path" debug="true">
+			<!--			<compilerarg value="-Xlint:unchecked" />-->
+		</javac>
+	</target>
+	<target name="build" depends="unpack-db"
+		description="Create CardIndex in target environment, with any modules supplied">
+	</target>
+
+	<target name="unpack-db"
+		description="Create CardIndex database in target environment">
+		<exec-sql-cmd command="drop database if exists ${db_name}"/>
+		<exec-sql-cmd command="create database ${db_name}"/>
+		<unpack-sql-file from="${src}/sql/build.sql"/>
+	</target>
+
+	<!-- MACRODEFs -->
+	<macrodef name="unpack-sql-file">
+		<!-- Macro: Import a SQL data file -->
+		<attribute name="from"/>
+		<sequential>
+			<echo message="Unpacking SQL file: @{from}${line.separator}"/>
+			<exec executable="${env.MYSQL_HOME}/bin/mysql" dir="${src}" input="@{from}" vmlauncher="false" failonerror="true">
+				<arg value="-u${env.MYSQL_USER_ID}"/>
+				<arg value="-p${env.MYSQL_PASSWORD}"/>
+				<arg value="-h${env.MYSQL_HOSTNAME}"/>
+				<arg value="--database=${db_name}"/>
+				<arg value="--force"/>
+			</exec>
+		</sequential>
+	</macrodef>
+	<macrodef name="exec-sql-cmd">
+		<!-- Macro: Execute a SQL command -->
+		<attribute name="command"/>
+		<sequential>
+			<echo message="Executing SQL command: @{command}${line.separator}"/>
+			<exec executable="${env.MYSQL_HOME}/bin/mysql" dir="${src}" vmlauncher="false" failonerror="true">
+				<arg value="-u${env.MYSQL_USER_ID}"/>
+				<arg value="-p${env.MYSQL_PASSWORD}"/>
+				<arg value="-h${env.MYSQL_HOSTNAME}"/>
+				<arg value="-e @{command}"/>
+			</exec>
+		</sequential>
+	</macrodef>
+
+	<target name="copy" description="Copy static and tokenized files and zips">
+		<mkdir dir="${build}/WEB-INF/classes"/>
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}/META-INF"/>
+		<mkdir dir="${build}/files"/>
+		<copy todir="${build}/WEB-INF" file="${src}/conf/web.xml">
+			<filterset>
+				<filter token="ENVTITLE" value="${config_title}"/>
+				<filter token="DBNAME" value="${db_name}"/>
+				<filter token="SRC" value="${src_path}/"/>
+			</filterset>
+		</copy>
+		<copy todir="${build}/META-INF" file="${src}/conf/context.xml">
+			<filterset>
+				<filter token="DOCBASE" value="${webapp}"/>
+				<filter token="PATH" value="/${webapp}"/>
+				<filter token="ENVTITLE" value="${config_title}"/>
+				<filter token="WEBAPP" value="${webapp}"/>
+				<filter token="DBNAME" value="${db_name}"/>
+				<filter token="MYSQL_HOSTNAME" value="${env.MYSQL_HOSTNAME}"/>
+				<filter token="MYSQL_USER_ID" value="${env.MYSQL_USER_ID}"/>
+				<filter token="MYSQL_PASSWORD" value="${env.MYSQL_PASSWORD}"/>
+			</filterset>
+		</copy>
+		<copy todir="${env.CATALINA_HOME}/lib">
+			<fileset dir="${src}/lib"/>
+		</copy>
+		<copy todir="${build}">
+			<fileset dir="${src}/jsp"/>
+			<filterset>
+				<filter token="ENVTITLE" value="${config_title}"/>
+				<filter token="CONFIG_BASE_URI" value="${config_base_uri}"/>
+				<filter token="VERSION_NBR" value="${config_version_core}"/>
+				<filter token="BUILD_NBR" value="${config_build_number}"/>
+				<filter token="DSTAMP" value="${date_time_stamp}"/>
+				<filter token="HELP_URL_BASE" value="https://www.lucidium.net/jspwiki_help/"/>
+				<filter token="HELP_URL_LINK" value="Wiki.jsp?page=Navigation"/>
+				<filter token="EMAIL_FROM_ADDR" value="${config_email_from_addr}"/>
+				<filter token="EMAIL_SUPPORT_ADDR" value="${config_email_support_addr}"/>
+				<filter token="CONFIG_PRODUCT_NAME" value="${config_product_name}"/>
+			</filterset>
+		</copy>
+		<copy todir="${build}/style">
+			<fileset dir="${src}/style">
+				<exclude name="style.css"/>
+				<exclude name="icons/**"/>
+			</fileset>
+		</copy>
+		<copy todir="${build}/style">
+			<fileset dir="${src}/style/icons"/>
+		</copy>
+		<copy todir="${build}/style">
+			<fileset dir="${src}/javascript"/>
+		</copy>
+		<!--		<concat destfile="${build}/style/concat-unminified.js">
+			<fileset dir="${src}/javascript" includes="*.js"/>
+		</concat>
+		<js-minify from="${build}/style/concat-unminified.js" to="${build}/style/concat-minified.js" />-->
+		<copy todir="${build}/style" file="${src}/style/style.css">
+			<filterset>
+				<filter token="CONFIG_BASE_URI" value="${config_base_uri}"/>
+				<filter token="ENV_BACKGRND_COLOR" value="${env_backgrnd_color}"/>
+				<filter token="ENV_FOREGRND_COLOR" value="${env_foregrnd_color}"/>
+			</filterset>
+		</copy>
+		<copy todir="${build}/xsl">
+			<fileset dir="${src}/xsl"/>
+			<filterset>
+				<filter token="WEBAPP" value="${webapp}"/>
+				<filter token="ENV_BACKGRND_COLOR" value="${env_backgrnd_color}"/>
+				<filter token="ENV_FOREGRND_COLOR" value="${env_foregrnd_color}"/>
+			</filterset>
+		</copy>
+		<concat destfile=".build_classpath">
+			<propertyresource name="classpath"/>
+		</concat>
+	</target>
+
+</project>
