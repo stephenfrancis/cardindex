@@ -1,20 +1,75 @@
 
+* {
+  box-sizing: inherit;
+}
+
+body {
+  box-sizing: border-box;
+  height: 100vh;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0 10px;
+}
+
+.Header {
+  background-color: white;
+  left: 10px;
+  position: fixed;
+  right: 10px;
+  top: 0;
+}
+
+.Header > div:nth-child(1) {
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 5px 0;
+}
+
+
 .FirstLetterIndex {
   display: flex;
-  flex-flow: row nowrap;
-  overflow: hidden;
+  flex-flow: row wrap;
+  margin-bottom: 10px;
 }
 
 .FirstLetterIndex > a {
   border: 1px solid grey;
   cursor: pointer;
   display: block;
-  margin-right: 3px;
+  margin: 0 3px 3px 0;
   padding: 3px;
   text-align: center;
-  width: 16px;
+  width: 24px;
 }
 
 .FirstLetterIndex > a.selected {
-  background-color: gray;
+  background-color: lightgray;
+}
+
+
+.Shuffler {
+  height: 100vh; /* slightly longer than viewport to force scrollable */
+  overflow-y: scroll;
+}
+
+.Shuffler > .PadTop {
+  height: 120px;
+}
+
+.Shuffler > .PadBottom {
+  height: 620px;
+}
+
+.Card {
+  border: 1px solid grey;
+  margin-bottom: 10px;
+}
+
+.Card > div:nth-child(1) {
+  background-color: lightgray;
+  padding: 5px;
+}
+
+.Card > div:nth-child(2) {
+  padding: 5px;
 }

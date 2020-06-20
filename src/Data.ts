@@ -72,7 +72,7 @@ class IndexNodeTerm extends IndexNode {
     if (!this.cards) {
       this.cards = [];
     }
-    console.log(`adding card ${card.getTitle()} with term ${term}`);
+    // console.log(`adding card ${card.getTitle()} with term ${term}`);
     this.cards.push(card);
   }
 
@@ -101,8 +101,44 @@ export class Data {
   }
 
 
+  public getCard(index: number): Card {
+    return this.cards[index];
+  }
+
+
+  public getCards(): Card[] {
+    return this.cards;
+  }
+
+
+  public getCardCount(): number {
+    return this.cards.length;
+  }
+
+
+  public getCardIndexByFirstLetter(char: string): number {
+    let out: number = 0;
+    this.cards.forEach((card: Card, index: number) => {
+      if (char.toUpperCase() > card.getTitle().charAt(0).toUpperCase()) {
+        out = (index + 1);
+      }
+    });
+    if (out === this.cards.length) {
+      out -= 1;
+    }
+    return out;
+  }
+
+
   public getRootIndexNode(): IndexNode {
     return this.index_root;
+  }
+
+
+  public sort(): void {
+    this.cards.sort((a: Card, b: Card) => {
+      return a.getTitle() < b.getTitle() ? -1 : 1;
+    });
   }
 
 }

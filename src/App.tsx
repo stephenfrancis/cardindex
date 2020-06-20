@@ -3,21 +3,24 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Card from "./Card";
 import Data from "./Data";
-import FirstLetterIndex from "./FirstLetterIndex";
+import Header from "./Header";
 import Shuffler from "./Shuffler";
 import test_data from "./test_data.json";
 
-test_data.forEach((text) => {
-  Data.addCard(new Card(text, "More info about " + text));
+test_data.forEach((item) => {
+  Data.addCard(new Card(item.title, item.content));
 });
+Data.sort();
 
 interface Props {}
 
 const App: React.SFC<Props> = (props) => {
+  const total_cards = Data.getCardCount();
+  const [ start_at, setStartAt ] = React.useState<number>(Math.min(total_cards, 2));
   return (
     <div>
-      <FirstLetterIndex />
-      <Shuffler />
+      <Header setStartAt={setStartAt} />
+      <Shuffler start_at_index={start_at} />
     </div>
   );
 };
