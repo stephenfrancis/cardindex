@@ -30,7 +30,7 @@ export class IndexNode {
 
 class IndexNodeRoot extends IndexNode {
 
-  constructor(term) {
+  constructor(term: string) {
     super(term);
   }
 
@@ -47,7 +47,7 @@ class IndexNodeRoot extends IndexNode {
 
 class IndexNodeLetter extends IndexNode {
 
-  constructor(term) {
+  constructor(term: string) {
     super(term);
   }
 
@@ -64,7 +64,7 @@ class IndexNodeLetter extends IndexNode {
 class IndexNodeTerm extends IndexNode {
   private cards: Card[];
 
-  constructor(term) {
+  constructor(term: string) {
     super(term);
   }
 
@@ -80,19 +80,12 @@ class IndexNodeTerm extends IndexNode {
 
 
 export class Data {
-  private cards: Card[];
   private index_root: IndexNodeRoot;
 
   constructor() {
-    this.cards = [];
     this.index_root = new IndexNodeRoot("root");
   }
 
-
-  public addCard(card: Card): void {
-    this.cards.push(card);
-    this.addTitleToIndex(card);
-  }
 
 
   private addTitleToIndex(card: Card): void {
@@ -101,45 +94,11 @@ export class Data {
   }
 
 
-  public getCard(index: number): Card {
-    return this.cards[index];
-  }
-
-
-  public getCards(): Card[] {
-    return this.cards;
-  }
-
-
-  public getCardCount(): number {
-    return this.cards.length;
-  }
-
-
-  public getCardIndexByFirstLetter(char: string): number {
-    let out: number = 0;
-    this.cards.forEach((card: Card, index: number) => {
-      if (char.toUpperCase() > card.getTitle().charAt(0).toUpperCase()) {
-        out = (index + 1);
-      }
-    });
-    if (out === this.cards.length) {
-      out -= 1;
-    }
-    return out;
-  }
-
-
   public getRootIndexNode(): IndexNode {
     return this.index_root;
   }
 
 
-  public sort(): void {
-    this.cards.sort((a: Card, b: Card) => {
-      return a.getTitle() < b.getTitle() ? -1 : 1;
-    });
-  }
 
 }
 
