@@ -14,7 +14,7 @@ const Home: React.SFC<{}> = () => {
   });
   return (
     <div className="Home">
-      <h1>Current Boxes</h1>
+      <h2>Current Boxes</h2>
       {children}
     </div>
   );

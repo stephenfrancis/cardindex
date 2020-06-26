@@ -2,6 +2,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import BoxFrame from "./BoxFrame";
 import EditCard from "./EditCard";
 import FirstLetterIndex from "./FirstLetterIndex";
 import Header from "./Header";
@@ -20,8 +21,10 @@ const BoxRoute: React.SFC<{}> = () => {
   return (
     <div>
       <Header />
-      <FirstLetterIndex box_id={box_id} />
-      <ShufflerAlt box_id={box_id} />
+      <BoxFrame box_id={box_id}>
+        <FirstLetterIndex box_id={box_id} />
+        <ShufflerAlt box_id={box_id} />
+      </BoxFrame>
     </div>
   );
 }
@@ -35,8 +38,10 @@ const CardRoute: React.SFC<{}> = () => {
   return (
     <div>
       <Header />
-      { edit && <EditCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
-      {!edit && <ShowCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
+      <BoxFrame box_id={box_id}>
+        { edit && <EditCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
+        {!edit && <ShowCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
+      </BoxFrame>
     </div>
   );
 }
@@ -52,6 +57,7 @@ const App: React.SFC<{}> = () => {
           <CardRoute />
         </Route>
         <Route>
+          <Header />
           <Home />
         </Route>
       </Switch>

@@ -33,7 +33,7 @@ const EditCard: React.SFC<Props> = (props) => {
           <textarea ref={content_ref} defaultValue={card.getContent()} />
         </div>
       </div>
-      <div>
+      <div className="Buttons">
         <button onClick={onSave}>Save</button>
         <button onClick={onCancel}>Cancel</button>
       </div>
