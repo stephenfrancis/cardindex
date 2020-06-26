@@ -7,7 +7,7 @@ import Card from "../model/Card";
 interface Props {
   box_id: string;
   card_id: string;
-  toggleEdit: () => void;
+  toggleEdit: (saved: boolean) => void;
 }
 
 const EditCard: React.SFC<Props> = (props) => {
@@ -17,7 +17,7 @@ const EditCard: React.SFC<Props> = (props) => {
   const   title_ref = React.useRef<HTMLTextAreaElement>();
   const content_ref = React.useRef<HTMLTextAreaElement>();
   const onCancel = () => {
-    props.toggleEdit();
+    props.toggleEdit(false);
   };
   const onSave = () => {
     let errors = [];
@@ -33,7 +33,7 @@ const EditCard: React.SFC<Props> = (props) => {
     }
     if (errors.length === 0) {
       setError(null);
-      props.toggleEdit();
+      props.toggleEdit(true);
     } else {
       setError(errors.join(""));
     }

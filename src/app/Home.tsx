@@ -16,6 +16,7 @@ const Home: React.SFC<{}> = () => {
     <div className="Home">
       <h2>Current Boxes</h2>
       {children}
+      <Link to={`/addbox`} className="Add">➕</Link>
     </div>
   );
 }

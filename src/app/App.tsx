@@ -2,7 +2,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import AddCard from "./AddCard";
 import BoxFrame from "./BoxFrame";
+import DeleteCard from "./DeleteCard";
 import EditCard from "./EditCard";
 import FirstLetterIndex from "./FirstLetterIndex";
 import Header from "./Header";
@@ -13,7 +15,6 @@ import ShufflerAlt from "./ShufflerAlt";
 
 
 Mock.ensureAtLeastOneBoxPresent();
-
 
 
 const BoxRoute: React.SFC<{}> = () => {
@@ -46,6 +47,31 @@ const CardRoute: React.SFC<{}> = () => {
   );
 }
 
+const AddCardRoute: React.SFC<{}> = () => {
+  const { box_id } = useParams<{ box_id: string }>();
+  return (
+    <div className="Outer">
+      <Header />
+      <BoxFrame box_id={box_id}>
+        <AddCard box_id={box_id} />
+      </BoxFrame>
+    </div>
+  );
+}
+
+const DeleteCardRoute: React.SFC<{}> = () => {
+  const { box_id, card_id } = useParams<{ box_id: string, card_id: string }>();
+  return (
+    <div className="Outer">
+      <Header />
+      <BoxFrame box_id={box_id}>
+        <DeleteCard box_id={box_id} card_id={card_id} />
+      </BoxFrame>
+    </div>
+  );
+}
+
+
 const App: React.SFC<{}> = () => {
   return (
     <BrowserRouter>
@@ -53,8 +79,14 @@ const App: React.SFC<{}> = () => {
         <Route path="/box/:box_id">
           <BoxRoute />
         </Route>
+        <Route path="/addcard/:box_id">
+          <AddCardRoute />
+        </Route>
         <Route path="/card/:box_id/:card_id">
           <CardRoute />
+        </Route>
+        <Route path="/deletecard/:box_id/:card_id">
+          <DeleteCardRoute />
         </Route>
         <Route>
           <div className="Outer">

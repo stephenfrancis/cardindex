@@ -1,5 +1,6 @@
 
 import * as React from "react";
+import { Link } from "react-router-dom";
 import All from "../model/All";
 import Box from "../model/Box";
 
@@ -33,6 +34,7 @@ const FirstLetterIndex: React.SFC<Props> = (props) => {
   return (
     <div className="FirstLetterIndex">
       {children}
+      <Link to={`/addcard/${props.box_id}`} className="Add">➕</Link>
     </div>
   );
 };

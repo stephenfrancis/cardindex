@@ -40,7 +40,7 @@ class All {
 
   public forEachBox(callback: (box: Box, box_id: string) => void): void {
     Object.keys(this.boxes)
-      .forEach(box_id => callback(this.boxes[box_id], box_id));
+      .forEach(box_id => callback(this.getBox(box_id), box_id));
   }
 
 

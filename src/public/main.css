@@ -14,9 +14,14 @@ body {
 
 a {
   color: inherit;
+  display: block;
   font-size: inherit;
   font-weight: inherit;
   text-decoration: none;
+}
+
+button {
+  font-family: inherit;
 }
 
 .Outer {
@@ -44,10 +49,13 @@ a {
   margin-bottom: 10px;
 }
 
-.Box > div:nth-child(1) > a {
+.Box > div:nth-child(1) > * {
   background-color: lightgray;
   border: 1px solid grey;
   border-radius: 2px;
+}
+
+.Box > div:nth-child(1) > a {
   flex: 1 0 auto;
   line-height: 1.5;
   margin-right: 10px;
@@ -149,14 +157,19 @@ a {
   justify-content: space-between;
 }
 
-.Buttons button {
+.Buttons > * {
+  background-color: lightgray;
   border: 1px solid grey;
   border-radius: 2px;
   flex: 1 0 auto;
+  font-size: 1rem;
+  font-weight: 600;
   line-height: 25px;
   margin: 0 10px 10px 0;
+  padding: 2px 6px;
+  text-align: center;
 }
 
-.Buttons button:last-of-type {
+.Buttons *:last-child {
   margin-right: 0;
 }

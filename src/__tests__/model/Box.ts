@@ -25,8 +25,11 @@ test("initial state", () => {
 test("set title", () => {
   const box: Box = new Box("blah");
   box.setTitle("foo bar");
+  box.setScrollPosition(14);
   expect(box.getTitle()).toBe("foo bar");
+  expect(box.getScrollPosition()).toBe(14);
 });
+
 
 test("add a card", () => {
   const box: Box = new Box("blah");
