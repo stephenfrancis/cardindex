@@ -14,7 +14,7 @@ const EditCard: React.SFC<Props> = (props) => {
   const box : Box  = All.getBox(props.box_id);
   const card: Card = box.getCard(props.card_id);
   const [ error, setError ] = React.useState<string>(null);
-  const   title_ref = React.useRef<HTMLInputElement>();
+  const   title_ref = React.useRef<HTMLTextAreaElement>();
   const content_ref = React.useRef<HTMLTextAreaElement>();
   const onCancel = () => {
     props.toggleEdit();
@@ -39,16 +39,10 @@ const EditCard: React.SFC<Props> = (props) => {
     }
   }
   return (
-    <div>
-      <div className="EditCard">
-        <div className="Error">{error || ""}</div>
-        <div>
-          <input ref={title_ref} type="text" defaultValue={card.getTitle()} />
-        </div>
-        <div>
-          <textarea ref={content_ref} defaultValue={card.getContent()} />
-        </div>
-      </div>
+    <div className="EditCard">
+      <div className="Error">{error || ""}</div>
+      <textarea ref={title_ref}   defaultValue={card.getTitle()} />
+      <textarea ref={content_ref} defaultValue={card.getContent()} />
       <div className="Buttons">
         <button onClick={onSave}>Save</button>
         <button onClick={onCancel}>Cancel</button>

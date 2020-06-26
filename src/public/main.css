@@ -19,10 +19,22 @@ a {
   text-decoration: none;
 }
 
+.Outer {
+  display: flex;
+  height: 100vh;
+  flex-flow: column nowrap;
+}
+
 .Header {
   font-size: 2rem;
   font-weight: 700;
   padding: 5px 0;
+}
+
+.Box {
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
 }
 
 .Box > div:nth-child(1) {
@@ -32,8 +44,14 @@ a {
   margin-bottom: 10px;
 }
 
-.Box > div:nth-child(1) > :nth-child(1) {
+.Box > div:nth-child(1) > a {
+  background-color: lightgray;
+  border: 1px solid grey;
+  border-radius: 2px;
   flex: 1 0 auto;
+  line-height: 1.5;
+  margin-right: 10px;
+  padding-left: 5px;
 }
 
 .FirstLetterIndex {
@@ -58,16 +76,12 @@ a {
 
 
 .Shuffler {
-  height: calc(100vh - 110px); /* slightly longer than viewport to force scrollable */
+  flex: 1 0 10px;
   overflow-y: scroll;
 }
 
 .Shuffler > .PadTop {
   height: 120px;
-}
-
-.Shuffler > .PadBottom {
-  height: 620px;
 }
 
 .CardSummary {
@@ -79,32 +93,48 @@ a {
 }
 
 .ShowCard {
-  border: 1px solid grey;
-  border-radius: 2px;
-  margin-bottom: 10px;
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
 }
 
 .ShowCard > div:nth-child(1) {
+  border: 1px solid grey;
+  border-radius: 2px;
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
+  margin-bottom: 10px;
+}
+
+.ShowCard > div:nth-child(1) > div:nth-child(1) {
   background-color: lightgray;
   padding: 5px;
 }
 
-.ShowCard > div:nth-child(2) {
+.ShowCard > div:nth-child(1) > div:nth-child(2) {
+  flex: 1 0 10px;
+  overflow-y: scroll;
   padding: 5px;
+  white-space: pre-line;
 }
 
-.EditCard input {
-  font-family: monospace;
-  line-height: 1.5;
-  margin-bottom: 10px;
-  width: 100%;
+.EditCard {
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
+  overflow-y: scroll;
 }
 
 .EditCard textarea {
   font-family: monospace;
   line-height: 1.5;
-  height: 80vh;
+  margin-bottom: 10px;
   width: 100%;
+}
+
+.EditCard > :nth-child(3) { /* content */
+  flex: 1 0 10px;
 }
 
 .Error {
@@ -124,4 +154,9 @@ a {
   border-radius: 2px;
   flex: 1 0 auto;
   line-height: 25px;
+  margin: 0 10px 10px 0;
+}
+
+.Buttons button:last-of-type {
+  margin-right: 0;
 }

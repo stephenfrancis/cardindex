@@ -14,8 +14,8 @@ const ShowCard: React.SFC<Props> = (props) => {
   const box : Box  = All.getBox(props.box_id);
   const card: Card = box.getCard(props.card_id);
   return (
-    <div>
-      <div className="ShowCard">
+    <div className="ShowCard">
+      <div>
         <div>{card.getTitle()}</div>
         <div>{card.getContent()}</div>
       </div>

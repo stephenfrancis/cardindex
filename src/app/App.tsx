@@ -19,7 +19,7 @@ Mock.ensureAtLeastOneBoxPresent();
 const BoxRoute: React.SFC<{}> = () => {
   const { box_id } = useParams<{ box_id: string }>();
   return (
-    <div>
+    <div className="Outer">
       <Header />
       <BoxFrame box_id={box_id}>
         <FirstLetterIndex box_id={box_id} />
@@ -36,7 +36,7 @@ const CardRoute: React.SFC<{}> = () => {
     setEdit(!edit);
   };
   return (
-    <div>
+    <div className="Outer">
       <Header />
       <BoxFrame box_id={box_id}>
         { edit && <EditCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
@@ -57,8 +57,10 @@ const App: React.SFC<{}> = () => {
           <CardRoute />
         </Route>
         <Route>
-          <Header />
-          <Home />
+          <div className="Outer">
+            <Header />
+            <Home />
+          </div>
         </Route>
       </Switch>
     </BrowserRouter>

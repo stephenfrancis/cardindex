@@ -14,10 +14,24 @@ const ShufflerAlt: React.SFC<Props> = (props) => {
   const children = [];
   box.forEachCardSorted((card, index) =>
     children.push(<CardSummary box_id={props.box_id} card={card} key={card.getCardId()} />));
+  React.useEffect(() => {
+    document.querySelector(`.Shuffler`).scrollTo(0, box.getScrollPosition());
+  }, [ props.box_id ]);
+  let pending = false;
+  const onScroll = () => {
+    if (!pending) {
+      pending = true;
+      setTimeout(() => {
+        box.setScrollPosition(document.querySelector(`.Shuffler`).scrollTop);
+        pending = false;
+      }, 100);
+    }
+  };
 
   return (
     <div
         className="Shuffler"
+        onScroll={onScroll}
     >
       {children}
     </div>

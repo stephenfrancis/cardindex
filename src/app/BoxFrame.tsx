@@ -45,9 +45,7 @@ const BoxFrame: React.SFC<Props> = (props) => {
     <div className="Box">
       { edit && <BoxTitleEdit title={box.getTitle()} toggleEdit={toggleEdit} box={box} />}
       {!edit && <BoxTitleShow title={box.getTitle()} toggleEdit={toggleEdit} box_id={props.box_id} />}
-      <div>
-        {props.children}
-      </div>
+      {props.children}
     </div>
   );
 };

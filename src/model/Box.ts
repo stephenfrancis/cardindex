@@ -10,12 +10,14 @@ export default class Box {
   private box_title: string;
   private cards: { [key: string]: Card }; // primary storage structure
   private cards_sorted: Card[]; // secondary structure - only populated if sort required
+  private scroll_position: number;
 
   constructor(box_id: string) {
     this.box_id = box_id;
     this.box_title = "<unknown>";
     this.cards = {};
     this.cards_sorted = null;
+    this.scroll_position = 0;
     const box_info_str = window.localStorage.getItem(LS_ALL_PREFIX + box_id);
     if (box_info_str) {
       try {
@@ -28,6 +30,7 @@ export default class Box {
         (box_data.card_keys as string[])
           .forEach(card_key => this.cards[card_key] = null);
         this.box_title = box_data.box_title || this.box_title;
+        this.scroll_position = box_data.scroll_position || this.scroll_position;
       } catch (e) {
         console.error(e);
       }
@@ -103,6 +106,11 @@ export default class Box {
   }
 
 
+  public getScrollPosition(): number {
+    return this.scroll_position;
+  }
+
+
   public getTitle(): string {
     return this.box_title;
   }
@@ -111,6 +119,12 @@ export default class Box {
   public remove(): void {
     this.forEachCard((card: Card, card_id: string) => this.deleteCard(card_id));
     window.localStorage.removeItem(LS_ALL_PREFIX + this.box_id);
+  }
+
+
+  public setScrollPosition(arg: number): void {
+    this.scroll_position = arg;
+    this.writeData();
   }
 
 
@@ -141,6 +155,7 @@ export default class Box {
     window.localStorage.setItem(LS_ALL_PREFIX + this.box_id, JSON.stringify({
       box_title: this.box_title,
       card_keys: Object.keys(this.cards),
+      scroll_position: this.scroll_position,
     }));
   }
 
