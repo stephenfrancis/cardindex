@@ -1,5 +1,7 @@
 
 const LS_ALL_PREFIX = "~CI~CARD~";
+const MAX_CONTENT_LENGTH = 1000;
+const MAX_TITLE_LENGTH = 100;
 
 export default class Card {
 
@@ -40,21 +42,21 @@ export default class Card {
 
 
   public setContent(content: string): void {
-    this.validate(content, 500);
+    Card.validateContent(content);
     this.content = content;
     this.writeData();
   }
 
 
   public setTitle(title: string): void {
-    this.validate(title, 100);
+    Card.validateTitle(title);
     this.title = title;
     this.writeData();
   }
 
 
-  private validate(arg: string, max_length: number): void {
-    const INVALID_CHARS = /[^\s\w\(\)\[\]\-\.\,\;\:\'\"\/]/;
+  private static validate(arg: string, max_length: number): void {
+    const INVALID_CHARS = /[^\s\w\(\)\[\]\-\.\,\;\:\'\"\/\?\!\#\@\<\>]/;
     if (typeof arg !== "string") {
       throw new Error(`must be a string`);
     }
@@ -65,6 +67,16 @@ export default class Card {
     if (match) {
       throw new Error(`contains invalid characters: ${match[0]}`);
     }
+  }
+
+
+  public static validateContent(arg: string): void {
+    this.validate(arg, MAX_CONTENT_LENGTH);
+  }
+
+
+  public static validateTitle(arg: string): void {
+    this.validate(arg, MAX_TITLE_LENGTH);
   }
 
 

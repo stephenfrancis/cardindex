@@ -13,19 +13,35 @@ interface Props {
 const EditCard: React.SFC<Props> = (props) => {
   const box : Box  = All.getBox(props.box_id);
   const card: Card = box.getCard(props.card_id);
+  const [ error, setError ] = React.useState<string>(null);
   const   title_ref = React.useRef<HTMLInputElement>();
   const content_ref = React.useRef<HTMLTextAreaElement>();
   const onCancel = () => {
     props.toggleEdit();
   };
   const onSave = () => {
-    card.setTitle(title_ref.current.value);
-    card.setContent(content_ref.current.value);
-    props.toggleEdit();
+    let errors = [];
+    try {
+      card.setTitle(title_ref.current.value);
+    } catch (e) {
+      errors.push(`The title you entered is invalid because it ${e.message}. `);
+    }
+    try {
+      card.setContent(content_ref.current.value);
+    } catch (e) {
+      errors.push(`The content you entered is invalid because it ${e.message}. `);
+    }
+    if (errors.length === 0) {
+      setError(null);
+      props.toggleEdit();
+    } else {
+      setError(errors.join(""));
+    }
   }
   return (
     <div>
       <div className="EditCard">
+        <div className="Error">{error || ""}</div>
         <div>
           <input ref={title_ref} type="text" defaultValue={card.getTitle()} />
         </div>

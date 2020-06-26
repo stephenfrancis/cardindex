@@ -49,7 +49,7 @@ class All {
       this.boxes[box_id] = new Box(box_id);
     }
     if (!(this.boxes[box_id] instanceof Box)) {
-      throw new Error(`unrecognized box id: ${box_id}`);
+      throw new Error(`unrecognized box id: '${box_id}'`);
     }
     return this.boxes[box_id];
   }

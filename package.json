@@ -4,7 +4,8 @@
   "description": "Conveniently record, trawl and find text data organized as cards on a mobile device",
   "main": "index.js",
   "scripts": {
-    "start": "npx parcel src/public/index.html"
+    "start": "npx parcel src/public/index.html",
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -12,6 +13,17 @@
   },
   "author": "stephen.d.francis@gmail.com",
   "license": "Apache-2.0",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "__tests__/.*\\.(ts|tsx)$"
+  },
   "dependencies": {
     "loglevel": "^1.6.8",
     "marked": "^1.1.0",

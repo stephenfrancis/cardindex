@@ -107,6 +107,12 @@ a {
   width: 100%;
 }
 
+.Error {
+  color: red;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
 .Buttons {
   display: flex;
   flex-flow: row nowrap;

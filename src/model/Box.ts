@@ -13,6 +13,7 @@ export default class Box {
 
   constructor(box_id: string) {
     this.box_id = box_id;
+    this.box_title = "<unknown>";
     this.cards = {};
     this.cards_sorted = null;
     const box_info_str = window.localStorage.getItem(LS_ALL_PREFIX + box_id);
@@ -26,7 +27,7 @@ export default class Box {
         }
         (box_data.card_keys as string[])
           .forEach(card_key => this.cards[card_key] = null);
-        this.box_title = box_data.box_title || "<unknown>";
+        this.box_title = box_data.box_title || this.box_title;
       } catch (e) {
         console.error(e);
       }
@@ -47,7 +48,7 @@ export default class Box {
 
   public deleteCard(card_id: string): void {
     if (typeof this.cards[card_id] === "undefined") {
-      throw new Error(`unrecognized box id: ${card_id}`);
+      throw new Error(`unrecognized card id: '${card_id}'`);
     }
     if (this.cards_sorted) {
       this.cards_sorted.splice(this.cards_sorted.indexOf(this.cards[card_id]), 1);
@@ -80,7 +81,7 @@ export default class Box {
       this.cards[card_id] = new Card(card_id);
     }
     if (!(this.cards[card_id] instanceof Card)) {
-      throw new Error(`unrecognized box id: ${card_id}`);
+      throw new Error(`unrecognized card id: '${card_id}'`);
     }
     return this.cards[card_id];
   }
