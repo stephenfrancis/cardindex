@@ -34,7 +34,7 @@ const FirstLetterIndex: React.SFC<Props> = (props) => {
   return (
     <div className="FirstLetterIndex">
       {children}
-      <Link to={`/addcard/${props.box_id}`} className="Add">➕</Link>
+      <Link to={`/card/${props.box_id}/add`} className="Add">➕</Link>
     </div>
   );
 };

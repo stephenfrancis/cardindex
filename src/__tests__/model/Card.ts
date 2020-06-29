@@ -4,7 +4,7 @@ import Card from "../../model/Card";
 
 test("initial state", () => {
   const card: Card = new Card("blah");
-  expect(card.getTitle()).toEqual("<unknown>");
+  expect(card.getTitle()).toEqual("");
   expect(card.getContent()).toEqual("");
   card.setTitle("Raggedy");
   card.setContent("Mapplewhaite");

@@ -11,6 +11,7 @@ export function ensureAtLeastOneBoxPresent(): void {
   if (box_ids.length === 0) {
     const box: Box = All.addBox();
     try {
+      box.setTitle("UK Native Tree Species");
       box_ids.push(box.getBoxId());
       test_data.forEach(item => {
         const card = box.addCard();
@@ -21,8 +22,8 @@ export function ensureAtLeastOneBoxPresent(): void {
         }
         card.setTitle(title);
         let content = item.content;
-        if (content.length > 500) {
-          content = content.substr(0, 500);
+        if (content.length > 1000) {
+          content = content.substr(0, 1000);
           console.log(`truncated content for card '${item.title}`);
         }
         card.setContent(content);

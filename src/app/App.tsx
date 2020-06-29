@@ -2,7 +2,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
-import AddCard from "./AddCard";
 import BoxFrame from "./BoxFrame";
 import DeleteCard from "./DeleteCard";
 import EditCard from "./EditCard";
@@ -30,42 +29,25 @@ const BoxRoute: React.SFC<{}> = () => {
   );
 }
 
-const CardRoute: React.SFC<{}> = () => {
-  const { box_id, card_id } = useParams<{ box_id: string, card_id: string }>();
-  const [ edit, setEdit ] = React.useState<boolean>(false);
-  const toggleEdit = () => {
-    setEdit(!edit);
-  };
-  return (
-    <div className="Outer">
-      <Header />
-      <BoxFrame box_id={box_id}>
-        { edit && <EditCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
-        {!edit && <ShowCard box_id={box_id} card_id={card_id} toggleEdit={toggleEdit} />}
-      </BoxFrame>
-    </div>
-  );
-}
-
-const AddCardRoute: React.SFC<{}> = () => {
+const BoxIdRoute: React.SFC<{ child: React.SFC<{ box_id: string }> }> = (props) => {
   const { box_id } = useParams<{ box_id: string }>();
   return (
     <div className="Outer">
       <Header />
       <BoxFrame box_id={box_id}>
-        <AddCard box_id={box_id} />
+        <props.child box_id={box_id} />
       </BoxFrame>
     </div>
   );
 }
 
-const DeleteCardRoute: React.SFC<{}> = () => {
+const BoxIdCardIdRoute: React.SFC<{ child: React.SFC<{ box_id: string, card_id: string }> }> = (props) => {
   const { box_id, card_id } = useParams<{ box_id: string, card_id: string }>();
   return (
     <div className="Outer">
       <Header />
       <BoxFrame box_id={box_id}>
-        <DeleteCard box_id={box_id} card_id={card_id} />
+        <props.child box_id={box_id} card_id={card_id} />
       </BoxFrame>
     </div>
   );
@@ -79,14 +61,17 @@ const App: React.SFC<{}> = () => {
         <Route path="/box/:box_id">
           <BoxRoute />
         </Route>
-        <Route path="/addcard/:box_id">
-          <AddCardRoute />
+        <Route path="/card/:box_id/add">
+          <BoxIdRoute child={EditCard} />
+        </Route>
+        <Route path="/card/:box_id/:card_id/delete">
+          <BoxIdCardIdRoute child={DeleteCard} />
+        </Route>
+        <Route path="/card/:box_id/:card_id/edit">
+          <BoxIdCardIdRoute child={EditCard} />
         </Route>
         <Route path="/card/:box_id/:card_id">
-          <CardRoute />
-        </Route>
-        <Route path="/deletecard/:box_id/:card_id">
-          <DeleteCardRoute />
+          <BoxIdCardIdRoute child={ShowCard} />
         </Route>
         <Route>
           <div className="Outer">

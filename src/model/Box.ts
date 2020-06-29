@@ -140,7 +140,10 @@ export default class Box {
     }
     if (this.cards_sorted.length === 0) {
       Object.keys(this.cards)
-        .forEach(card_id => this.cards_sorted.push(this.getCard(card_id)));
+        .forEach((card_id) => {
+          const card = this.getCard(card_id);
+          this.cards_sorted.push(card);
+        });
     }
     if (this.cards_sorted.length < Object.keys(this.cards).length) {
       throw new Error(`cards_sorted array is incomplete`);
