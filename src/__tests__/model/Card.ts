@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 
 import C from "../../model/Card";
 import Card from "../../model/Card";
@@ -12,7 +15,6 @@ test("initial state", () => {
   expect(card.getTitle()).toEqual("Raggedy");
   expect(card.getContent()).toEqual("Mapplewhaite");
 });
-
 
 test("validation", () => {
   const card: Card = new Card("blah");

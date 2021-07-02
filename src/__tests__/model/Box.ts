@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 
 import Box from "../../model/Box";
 
@@ -9,7 +12,7 @@ test("initial state", () => {
   }).toThrowError("unrecognized card id: 'foo'");
 
   let count = 0;
-  box.forEachCard(() => count += 1);
+  box.forEachCard(() => (count += 1));
   expect(count).toBe(0);
 
   expect(box.getBoxId()).toBe("blah");
@@ -21,7 +24,6 @@ test("initial state", () => {
   expect(box.getTitle()).toBe("<unknown>");
 });
 
-
 test("set title", () => {
   const box: Box = new Box("blah");
   box.setTitle("foo bar");
@@ -29,7 +31,6 @@ test("set title", () => {
   expect(box.getTitle()).toBe("foo bar");
   expect(box.getScrollPosition()).toBe(14);
 });
-
 
 test("add a card", () => {
   const box: Box = new Box("blah");
@@ -49,11 +50,11 @@ test("add a card", () => {
   box.deleteCard(card_id);
 
   expect(() => {
-    box.getCard(card_id)
+    box.getCard(card_id);
   }).toThrowError(`unrecognized card id: '${card_id}'`);
 
   count = 0;
-  box.forEachCard(() => count += 1);
+  box.forEachCard(() => (count += 1));
   expect(count).toBe(0);
 });
 

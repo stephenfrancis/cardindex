@@ -1,17 +1,20 @@
+/**
+ * @jest-environment jsdom
+ */
 
 import All from "../../model/All";
 
 test("initial state", () => {
   expect(() => {
-    All.getBox("blah")
+    All.getBox("blah");
   }).toThrowError("unrecognized box id: 'blah'");
 
   expect(() => {
-    All.deleteBox("blah")
+    All.deleteBox("blah");
   }).toThrowError("unrecognized box id: 'blah'");
 
   let count = 0;
-  All.forEachBox(() => count += 1);
+  All.forEachBox(() => (count += 1));
   expect(count).toBe(0);
 });
 
@@ -32,11 +35,10 @@ test("add one box then delete", () => {
   All.deleteBox(box_id);
 
   expect(() => {
-    All.getBox(box_id)
+    All.getBox(box_id);
   }).toThrowError(`unrecognized box id: '${box_id}'`);
 
   count = 0;
-  All.forEachBox(() => count += 1);
+  All.forEachBox(() => (count += 1));
   expect(count).toBe(0);
-
 });
