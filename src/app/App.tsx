@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
@@ -12,9 +11,9 @@ import * as Mock from "../model/Mock";
 import ShowCard from "./ShowCard";
 import ShufflerAlt from "./ShufflerAlt";
 
+import "../public/main.css";
 
 Mock.ensureAtLeastOneBoxPresent();
-
 
 const BoxRoute: React.SFC<{}> = () => {
   const { box_id } = useParams<{ box_id: string }>();
@@ -27,9 +26,11 @@ const BoxRoute: React.SFC<{}> = () => {
       </BoxFrame>
     </div>
   );
-}
+};
 
-const BoxIdRoute: React.SFC<{ child: React.SFC<{ box_id: string }> }> = (props) => {
+const BoxIdRoute: React.SFC<{ child: React.SFC<{ box_id: string }> }> = (
+  props
+) => {
   const { box_id } = useParams<{ box_id: string }>();
   return (
     <div className="Outer">
@@ -39,10 +40,12 @@ const BoxIdRoute: React.SFC<{ child: React.SFC<{ box_id: string }> }> = (props) 
       </BoxFrame>
     </div>
   );
-}
+};
 
-const BoxIdCardIdRoute: React.SFC<{ child: React.SFC<{ box_id: string, card_id: string }> }> = (props) => {
-  const { box_id, card_id } = useParams<{ box_id: string, card_id: string }>();
+const BoxIdCardIdRoute: React.SFC<{
+  child: React.SFC<{ box_id: string; card_id: string }>;
+}> = (props) => {
+  const { box_id, card_id } = useParams<{ box_id: string; card_id: string }>();
   return (
     <div className="Outer">
       <Header />
@@ -51,8 +54,7 @@ const BoxIdCardIdRoute: React.SFC<{ child: React.SFC<{ box_id: string, card_id: 
       </BoxFrame>
     </div>
   );
-}
-
+};
 
 const App: React.SFC<{}> = () => {
   return (
