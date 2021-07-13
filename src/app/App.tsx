@@ -9,31 +9,32 @@ import Header from "./Header";
 import Home from "./Home";
 import * as Mock from "../model/Mock";
 import ShowCard from "./ShowCard";
-import ShufflerAlt from "./ShufflerAlt";
+import Shuffler from "./Shuffler";
 
 import "../public/main.css";
+import styles from "./Outer.css";
 
 Mock.ensureAtLeastOneBoxPresent();
 
-const BoxRoute: React.SFC<{}> = () => {
+const BoxRoute: React.FC<{}> = () => {
   const { box_id } = useParams<{ box_id: string }>();
   return (
-    <div className="Outer">
+    <div className={styles.Outer}>
       <Header />
       <BoxFrame box_id={box_id}>
         <FirstLetterIndex box_id={box_id} />
-        <ShufflerAlt box_id={box_id} />
+        <Shuffler box_id={box_id} />
       </BoxFrame>
     </div>
   );
 };
 
-const BoxIdRoute: React.SFC<{ child: React.SFC<{ box_id: string }> }> = (
+const BoxIdRoute: React.FC<{ child: React.FC<{ box_id: string }> }> = (
   props
 ) => {
   const { box_id } = useParams<{ box_id: string }>();
   return (
-    <div className="Outer">
+    <div className={styles.Outer}>
       <Header />
       <BoxFrame box_id={box_id}>
         <props.child box_id={box_id} />
@@ -42,12 +43,12 @@ const BoxIdRoute: React.SFC<{ child: React.SFC<{ box_id: string }> }> = (
   );
 };
 
-const BoxIdCardIdRoute: React.SFC<{
-  child: React.SFC<{ box_id: string; card_id: string }>;
+const BoxIdCardIdRoute: React.FC<{
+  child: React.FC<{ box_id: string; card_id: string }>;
 }> = (props) => {
   const { box_id, card_id } = useParams<{ box_id: string; card_id: string }>();
   return (
-    <div className="Outer">
+    <div className={styles.Outer}>
       <Header />
       <BoxFrame box_id={box_id}>
         <props.child box_id={box_id} card_id={card_id} />
@@ -56,7 +57,7 @@ const BoxIdCardIdRoute: React.SFC<{
   );
 };
 
-const App: React.SFC<{}> = () => {
+const App: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
@@ -76,7 +77,7 @@ const App: React.SFC<{}> = () => {
           <BoxIdCardIdRoute child={ShowCard} />
         </Route>
         <Route>
-          <div className="Outer">
+          <div className={styles.Outer}>
             <Header />
             <Home />
           </div>

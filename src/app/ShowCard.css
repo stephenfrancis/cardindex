@@ -1,0 +1,26 @@
+.ShowCard {
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
+}
+
+.ShowCard > div:nth-child(1) {
+  border: 1px solid grey;
+  border-radius: 2px;
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
+  margin-bottom: 10px;
+}
+
+.ShowCard > div:nth-child(1) > div:nth-child(1) {
+  background-color: lightgray;
+  padding: 5px;
+}
+
+.ShowCard > div:nth-child(1) > div:nth-child(2) {
+  flex: 1 0 10px;
+  overflow-y: scroll;
+  padding: 5px;
+  white-space: pre-line;
+}

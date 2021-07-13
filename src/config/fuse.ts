@@ -1,4 +1,4 @@
-import { fusebox } from "fuse-box";
+import { fusebox, pluginCSS, pluginPostCSS } from "fuse-box";
 import * as path from "path";
 
 const env = process.env.NODE_ENV || "";
@@ -13,6 +13,14 @@ if (["development", "production"].indexOf(env) === -1) {
 const fuse = fusebox({
   entry: "../app/App.tsx",
   target: "browser",
+  plugins: [
+    pluginPostCSS("*.css", {
+      asModule: {
+        scopeBehaviour: "local",
+      },
+    }),
+    pluginCSS(),
+  ],
   devServer: env === "development",
   webIndex: {
     template: "../public/index.html",

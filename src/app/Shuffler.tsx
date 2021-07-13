@@ -1,66 +1,64 @@
-
 import * as React from "react";
-import Data from "../model/Data";
-import ShowCard from "./ShowCard";
+import { Link } from "react-router-dom";
+import All from "../model/All";
+import Box from "../model/Box";
+import Card from "../model/Card";
+
+import stylesCardSummary from "./CardSummary.css";
+import stylesShuffler from "./Shuffler.css";
 
 interface Props {
-  start_at_index: number;
+  box_id: string;
 }
 
-const Shuffler: React.SFC<Props> = (props) => {
-  const total_cards = Data.getCardCount();
-  const [ curr_card, setCurrCard ] = React.useState<number>(Math.min(total_cards, props.start_at_index));
+const Shuffler: React.FC<Props> = (props) => {
+  const box: Box = All.getBox(props.box_id);
+  const children = [];
+  box.forEachCardSorted((card, index) =>
+    children.push(
+      <CardSummary box_id={props.box_id} card={card} key={card.getCardId()} />
+    )
+  );
   React.useEffect(() => {
-    setCurrCard(Math.min(total_cards, props.start_at_index));
-  });
+    const elmt = document.querySelector(stylesShuffler.Shuffler);
+    if (elmt) {
+      elmt.scrollTo(0, box.getScrollPosition());
+    }
+  }, [props.box_id]);
+  let pending = false;
+  const onScroll = () => {
+    if (!pending) {
+      pending = true;
+      setTimeout(() => {
+        const elmt = document.querySelector(stylesShuffler.Shuffler);
+        if (elmt) {
+          box.setScrollPosition(elmt.scrollTop);
+        }
+        pending = false;
+      }, 100);
+    }
+  };
 
-  let touch_y_posn: number;
-  const prevCard = () => {
-    if (curr_card > 0) {
-      setCurrCard(curr_card - 1);
-    }
-  };
-  const nextCard = () => {
-    if (curr_card < (total_cards - 1)) { // down
-      setCurrCard(curr_card + 1);
-    }
-  };
-  const onKeyUp = (event: React.KeyboardEvent) => {
-    console.log(`onKeyUp: ${event.keyCode}`);
-    if (event.keyCode === 38) {
-      prevCard();
-    } else if (event.keyCode === 40) {
-      nextCard();
-    }
-  };
-  const onTouchStart = (event: React.TouchEvent) => {
-    touch_y_posn = event.touches[0].clientY;
-  };
-  const onTouchMove = (event: React.TouchEvent) => {
-    if ((event.changedTouches[0].clientY + 5) > touch_y_posn) { // up
-      console.log(`dragging down - earlier card`);
-      prevCard();
-    } else {
-      console.log(`dragging up later card`);
-      nextCard();
-    }
-  };
   return (
-    <div
-        className="Shuffler"
-        draggable={true}
-        onKeyUp={onKeyUp}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchMove}
-    >
-      <div className="PadTop"></div>
-      {((curr_card >= 2) && <ShowCard card={Data.getCard(curr_card - 2)} />)}
-      {((curr_card >= 1) && <ShowCard card={Data.getCard(curr_card - 1)} />)}
-      <ShowCard mode="main" card={Data.getCard(curr_card)} />
-      {((curr_card < (total_cards - 1)) && <ShowCard card={Data.getCard(curr_card + 1)} />)}
-      {((curr_card < (total_cards - 2)) && <ShowCard card={Data.getCard(curr_card + 2)} />)}
+    <div className={stylesShuffler.Shuffler} onScroll={onScroll}>
+      {children}
     </div>
   );
 };
 
 export default Shuffler;
+
+interface CardProps {
+  box_id: string;
+  card: Card;
+}
+
+const CardSummary: React.FC<CardProps> = (props) => {
+  return (
+    <div className={stylesCardSummary.CardSummary}>
+      <Link to={`/card/${props.box_id}/${props.card.getCardId()}`}>
+        {props.card.getTitle()}
+      </Link>
+    </div>
+  );
+};

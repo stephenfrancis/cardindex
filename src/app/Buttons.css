@@ -1,0 +1,22 @@
+.Buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.Buttons > * {
+  flex: 1 0 auto;
+  margin: 0 10px 10px 0;
+  padding: 2px 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 25px;
+  text-align: center;
+  background-color: lightgray;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+.Buttons *:last-child {
+  margin-right: 0;
+}

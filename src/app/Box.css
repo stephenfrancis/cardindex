@@ -1,0 +1,25 @@
+.Box {
+  display: flex;
+  flex: 1 0 10px;
+  flex-flow: column nowrap;
+}
+
+.Box > div:nth-child(1) {
+  display: flex;
+  flex-flow: row nowrap;
+  margin-bottom: 10px;
+  line-height: 25px;
+}
+
+.Box > div:nth-child(1) > * {
+  background-color: lightgray;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+.Box > div:nth-child(1) > a {
+  flex: 1 0 auto;
+  margin-right: 10px;
+  padding-left: 5px;
+  line-height: 1.5;
+}

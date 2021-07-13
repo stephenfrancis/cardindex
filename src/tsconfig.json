@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "lib": ["es2015", "dom"],
+    "target": "es5",
+    "jsx": "react"
+  },
+  "exclude": ["__tests__"]
+}
