@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import AddBox from "./AddBox";
 import BoxFrame from "./BoxFrame";
 import DeleteCard from "./DeleteCard";
 import EditCard from "./EditCard";
@@ -15,6 +16,15 @@ import "../public/main.css";
 import styles from "./Outer.css";
 
 Mock.ensureAtLeastOneBoxPresent();
+
+const NullRoute: React.FC<{ child: React.FC<{}> }> = (props) => {
+  return (
+    <div className={styles.Outer}>
+      <Header />
+      <props.child />
+    </div>
+  );
+};
 
 const BoxRoute: React.FC<{}> = () => {
   const { box_id } = useParams<{ box_id: string }>();
@@ -61,6 +71,9 @@ const App: React.FC<{}> = () => {
   return (
     <BrowserRouter>
       <Switch>
+        <Route path="/addbox">
+          <NullRoute child={AddBox} />
+        </Route>
         <Route path="/box/:box_id">
           <BoxRoute />
         </Route>

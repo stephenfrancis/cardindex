@@ -1,6 +1,6 @@
 {
   "name": "cardindex",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Conveniently record, trawl and find text data organized as cards on a mobile device",
   "main": "index.js",
   "scripts": {

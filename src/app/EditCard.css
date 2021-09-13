@@ -5,6 +5,13 @@
   overflow-y: scroll;
 }
 
+.EditCard input {
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: monospace;
+  line-height: 1.5;
+}
+
 .EditCard textarea {
   width: 100%;
   margin-bottom: 10px;
