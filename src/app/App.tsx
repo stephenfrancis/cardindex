@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, useParams } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams } from "react-router-dom";
 import AddBox from "./AddBox";
 import BoxFrame from "./BoxFrame";
 import DeleteCard from "./DeleteCard";
@@ -67,35 +67,40 @@ const BoxIdCardIdRoute: React.FC<{
   );
 };
 
+const HomeRoute: React.FC = () => {
+  console.log(`inside HomeRoute`);
+  return (
+    <div className={styles.Outer}>
+      <Header />
+      <Home />
+    </div>
+  );
+};
+
 const App: React.FC<{}> = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path="/addbox">
-          <NullRoute child={AddBox} />
-        </Route>
-        <Route path="/box/:box_id">
-          <BoxRoute />
-        </Route>
-        <Route path="/card/:box_id/add">
-          <BoxIdRoute child={EditCard} />
-        </Route>
-        <Route path="/card/:box_id/:card_id/delete">
-          <BoxIdCardIdRoute child={DeleteCard} />
-        </Route>
-        <Route path="/card/:box_id/:card_id/edit">
-          <BoxIdCardIdRoute child={EditCard} />
-        </Route>
-        <Route path="/card/:box_id/:card_id">
-          <BoxIdCardIdRoute child={ShowCard} />
-        </Route>
-        <Route>
-          <div className={styles.Outer}>
-            <Header />
-            <Home />
-          </div>
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/addbox" element={<NullRoute child={AddBox} />} />
+        <Route path="/box/:box_id" element={<BoxRoute />} />
+        <Route
+          path="/card/:box_id/add"
+          element={<BoxIdRoute child={EditCard} />}
+        />
+        <Route
+          path="/card/:box_id/:card_id/delete"
+          element={<BoxIdCardIdRoute child={DeleteCard} />}
+        />
+        <Route
+          path="/card/:box_id/:card_id/edit"
+          element={<BoxIdCardIdRoute child={EditCard} />}
+        />
+        <Route
+          path="/card/:box_id/:card_id"
+          element={<BoxIdCardIdRoute child={ShowCard} />}
+        />
+        <Route path="*" element={<HomeRoute />} />
+      </Routes>
     </BrowserRouter>
   );
 };

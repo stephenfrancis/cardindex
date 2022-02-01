@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import All from "../model/All";
 import Box from "../model/Box";
 import Card from "../model/Card";
@@ -68,7 +68,7 @@ const EditCard: React.FC<Props> = (props) => {
     const redir = props.card_id
       ? `/card/${props.box_id}/${props.card_id}`
       : `/box/${props.box_id}`;
-    return <Redirect to={redir} />;
+    return <Navigate to={redir} />;
   }
 
   const renderCard = () => (

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import All from "../model/All";
 import Box from "../model/Box";
 
@@ -32,7 +32,7 @@ const AddBox: React.FC<Props> = (props) => {
     }
   };
   if (redir) {
-    return <Redirect to={redir} />;
+    return <Navigate to={redir} />;
   }
   return (
     <div className={stylesAddBox.AddBox}>
