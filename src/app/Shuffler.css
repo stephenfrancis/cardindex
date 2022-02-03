@@ -1,8 +1,5 @@
 .Shuffler {
   flex: 1 0 10px;
   overflow-y: scroll;
-}
-
-.Shuffler > .PadTop {
-  height: 120px;
+  padding-bottom: 80vh;
 }

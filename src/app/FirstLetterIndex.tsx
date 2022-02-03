@@ -10,26 +10,15 @@ interface Props {
 }
 
 const FirstLetterIndex: React.FC<Props> = (props) => {
-  const box: Box = All.getBox(props.box_id);
-
-  // const [ letter_selected, selectLetter ] = React.useState("");
-  const selectLetter = (letter: string) => {
-    const new_index = box.getIndexByFirstLetter(letter);
-    console.log(`selectLetter(${letter}) => ${new_index}`);
+  const selectLetter = (letter_code: number) => {
     const scroll_to =
-      ((new_index &&
-        (
-          document.querySelector(
-            `.Shuffler > div:nth-child(${new_index})`
-          ) as HTMLElement
-        ).offsetTop) ||
-        0) - 120;
+      (document.querySelector(`#marker_${letter_code}`) as HTMLElement)
+        .offsetTop - 130;
 
-    console.log(`start_at_index: ${new_index} => ${scroll_to}`);
-    document.querySelector(`.Shuffler`).scrollTo(0, scroll_to);
+    document.querySelector(`#shuffler`).scrollTo(0, scroll_to);
   };
   const children = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
-    <a key={letter} onClick={selectLetter.bind(this, letter)}>
+    <a key={letter} onClick={selectLetter.bind(this, letter.charCodeAt(0))}>
       {letter}
     </a>
   ));
@@ -44,7 +33,3 @@ const FirstLetterIndex: React.FC<Props> = (props) => {
 };
 
 export default FirstLetterIndex;
-
-const nextLevelDown: React.FC<Props> = (props) => {
-  return <div className="NextLevelDown">{props.children}</div>;
-};

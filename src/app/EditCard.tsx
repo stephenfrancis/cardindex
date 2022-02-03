@@ -65,9 +65,9 @@ const EditCard: React.FC<Props> = (props) => {
     }
   };
   if (done) {
-    const redir = props.card_id
+    const redir = /* props.card_id
       ? `/card/${props.box_id}/${props.card_id}`
-      : `/box/${props.box_id}`;
+      : */ `/box/${props.box_id}`;
     return <Navigate to={redir} />;
   }
 
