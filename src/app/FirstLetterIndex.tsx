@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import All from "../model/All";
-import Box from "../model/Box";
 
 import styles from "./FirstLetterIndex.css";
 
